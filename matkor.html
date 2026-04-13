@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matkor Moments | Pooja & Uttam</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="gallery-header" style="background-image: url('img/matkor/1.jpg'), url('img/wedding/1.jpg');">
+        <p class="script-font">Ancient Rhythms</p>
+        <h1>🥁 Matkor Ceremony</h1>
+        <p>Celebrating the roots and traditions of our families.</p>
+        <a href="home.html" class="back-btn" style="color: white; border-bottom: 2px solid white; margin-top: 2rem;">← Back to Celebrations</a>
+    </div>
+
+    <main class="gallery" id="gallery-container"></main>
+
+    <footer>Designed and Developed By Ishant Raj</footer>
+
+    <div id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">×</span>
+        <img id="lightbox-img">
+        <button class="nav-btn prev" onclick="prevImage()">❮</button>
+        <button class="nav-btn next" onclick="nextImage()">❯</button>
+    </div>
+
+    <div id="music-control" style="position: fixed; bottom: 30px; right: 30px; z-index: 1000; cursor: pointer; border-radius: 50%;" onclick="toggleMusic()">
+        <span id="music-icon">🎵</span>
+    </div>
+
+    <audio id="player" loop></audio>
+
+    <script src="script.js"></script>
+    <script>
+        window.onload = () => {
+            initGallery('matkor');
+            setupMusic('music/matkor.mp3');
+            const control = document.getElementById('music-control');
+            if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
+                control.classList.add('music-playing');
+            }
+        };
+    </script>
+</body>
+</html>

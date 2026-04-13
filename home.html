@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Functions | Pooja & Uttam</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header-hero">
+        <p class="script-font">Welcome to our Journey</p>
+        <h1>Celebrate Our Special Moments</h1>
+        <p class="script-font" style="font-size: 2.2rem; margin: 0.5rem 0;">April 21, 2024</p>
+        <p class="subtitle">Experience the magic of each ceremony through our curated gallery.</p>
+    </header>
+
+    <main class="menu-grid">
+        <a href="matkor.html" class="menu-card">
+            <img src="img/matkor/1.jpg" alt="Matkor" onerror="this.src='img/wedding/1.jpg'">
+            <div class="card-overlay">
+                <h3>Drum Beats: Matkor</h3>
+                <p>The rhythm of tradition and soulful prayers.</p>
+            </div>
+        </a>
+
+        <a href="haldi.html" class="menu-card">
+            <img src="img/haldi/1.jpg" alt="Haldi" onerror="this.src='img/wedding/10.jpg'">
+            <div class="card-overlay">
+                <h3>Shades of Haldi</h3>
+                <p>A glowing start filled with laughter and blessings.</p>
+            </div>
+        </a>
+
+        <a href="mehendi.html" class="menu-card">
+            <img src="img/mehendi/1.jpg" alt="Mehendi" onerror="this.src='img/wedding/20.jpg'">
+            <div class="card-overlay">
+                <h3>Henna Tales: Mehendi</h3>
+                <p>Art and love intertwined in every detail.</p>
+            </div>
+        </a>
+
+        <a href="tilak.html" class="menu-card">
+            <img src="img/tilak/1.jpg" alt="Tilak" onerror="this.src='img/wedding/30.jpg'">
+            <div class="card-overlay">
+                <h3>The Sacred Tilak</h3>
+                <p>A promise of lifelong loyalty and respect.</p>
+            </div>
+        </a>
+
+        <a href="wedding.html" class="menu-card">
+            <img src="img/wedding/1.jpg" alt="Wedding">
+            <div class="card-overlay">
+                <h3>Soulmates: The Wedding</h3>
+                <p>Two hearts becoming one under the divine gaze.</p>
+            </div>
+        </a>
+    </main>
+
+    <footer>
+        Designed and Developed By Ishant Raj
+    </footer>
+
+    <!-- Floating Music Control -->
+    <div id="music-control" style="position: fixed; bottom: 30px; right: 30px; z-index: 1000; cursor: pointer; border-radius: 50%;" onclick="toggleMusic()">
+        <span id="music-icon">🎵</span>
+    </div>
+
+    <audio id="player" loop></audio>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMusic('music/All_page.mp3');
+            const control = document.getElementById('music-control');
+            if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
+                control.classList.add('music-playing');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Great+Vibes&display=swap');
+
+:root {
+    --primary-color: #640d14; /* Deep Burgundy */
+    --secondary-color: #c9a227; /* Rich Gold */
+    --accent-color: #fefcfb; /* Soft Off-White */
+    --gold-gradient: linear-gradient(135deg, #c9a227 0%, #ecd06f 50%, #c9a227 100%);
+    --overlay-color: rgba(0, 0, 0, 0.4);
+    --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--accent-color);
+    color: #333;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--accent-color); }
+::-webkit-scrollbar-thumb { background: var(--secondary-color); border-radius: 10px; }
+
+h1, h2, h3 { font-family: 'Playfair Display', serif; }
+.script-font { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--secondary-color); }
+
+/* --- PAGE MOTIF / PATTERN --- */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.bg-zoom {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+    z-index: -1;
+}
+
+/* --- WELCOME SCREEN --- */
+.welcome-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 1000;
+}
+
+.welcome-content {
+    background: rgba(0, 0, 0, 0.4); /* Darker overlay for better text contrast */
+    padding: 4rem 3rem;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    color: white;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: slideUp 1.2s ease;
+    max-width: 600px;
+}
+
+.welcome-content h1 {
+    font-size: 4rem;
+    margin: 0.5rem 0;
+    letter-spacing: 2px;
+}
+
+.enter-btn {
+    margin-top: 3rem;
+    padding: 1.2rem 4rem;
+    font-size: 1rem;
+    background: var(--gold-gradient);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.enter-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 20%; height: 200%;
+    background: rgba(255,255,255,0.4);
+    transform: rotate(45deg);
+    transition: 0.7s;
+}
+
+.enter-btn:hover::after { left: 120%; }
+.enter-btn:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+
+/* --- HOME MENU --- */
+.header-hero {
+    padding: 6rem 2rem;
+    text-align: center;
+    background: var(--accent-color);
+    position: relative;
+}
+
+.header-hero::after {
+    content: "♥";
+    font-size: 2rem;
+    color: var(--secondary-color);
+    display: block;
+    margin-top: 1rem;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    padding: 0 2rem 6rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.menu-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 450px;
+    text-decoration: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
+
+.menu-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 1s ease;
+}
+
+.menu-card:hover img { transform: scale(1.1); }
+
+.card-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(100, 13, 20, 0.9) 10%, transparent 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem;
+    color: white;
+}
+
+.menu-card h3 { font-size: 2.2rem; margin-bottom: 0.5rem; color: #fff; }
+.menu-card p { opacity: 0.9; font-style: italic; font-weight: 300; }
+
+.menu-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 50px rgba(100, 13, 20, 0.2);
+}
+
+/* --- GALLERY PAGES --- */
+.gallery-header {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+    color: white;
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+.gallery-header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+}
+
+.gallery-header > * { position: relative; z-index: 1; }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.gallery img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid rgba(0,0,0,0.05);
+    background: #eee;
+}
+
+.gallery img:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+/* --- LIGHTBOX --- */
+#lightbox {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.98);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+#lightbox.active {
+    opacity: 1;
+}
+
+#lightbox-img {
+    max-width: 90%;
+    max-height: 85vh;
+    border: none;
+    box-shadow: 0 0 100px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px; right: 40px;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 2100;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 2100;
+    transition: var(--transition);
+}
+
+.prev { left: 30px; }
+.next { right: 30px; }
+
+/* --- MUSIC PLAYER --- */
+#music-control {
+    background: white;
+    width: 60px; height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    border: 3px solid var(--secondary-color);
+}
+
+.music-playing {
+    animation: rotate 4s linear infinite;
+}
+
+/* --- FOOTER --- */
+footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    opacity: 0.7;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary-color);
+}
+
+/* --- HEART RAIN --- */
+.heart-particle {
+    position: fixed;
+    top: -20px;
+    color: #ff4d6d;
+    font-size: 1.5rem;
+    pointer-events: none;
+    z-index: 9999;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* --- ANIMATIONS --- */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .welcome-content h1 { font-size: 2.5rem; }
+    .gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+    .gallery img { height: 250px; }
+    .gallery-header { height: 40vh; }
+}
