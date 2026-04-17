@@ -54,19 +54,33 @@ function setupMusic(src) {
     if (!player) return;
     
     player.src = src;
+    player.load(); // Explicitly load the new source
     
     const isMusicPlaying = sessionStorage.getItem('wedding_music_playing') !== 'false';
 
     if (isMusicPlaying) {
-        document.addEventListener('click', startMusicOnce, { once: true });
-        player.play().catch(() => console.log("Waiting for user interaction..."));
+        // Multi-event listener to catch any form of user interaction
+        ['click', 'touchstart', 'mousedown', 'keydown'].forEach(event => {
+            document.addEventListener(event, startMusicOnce, { once: true });
+        });
+
+        // Try to play immediately (might work if already unlocked by previous page)
+        player.play().catch(() => {
+            console.log("Autoplay blocked. Waiting for interaction...");
+        });
     }
 }
 
 function startMusicOnce() {
     const player = document.getElementById("player");
-    if (player && player.paused) {
-        player.play();
+    const control = document.getElementById("music-control");
+    
+    if (player && player.paused && sessionStorage.getItem('wedding_music_playing') !== 'false') {
+        player.play().then(() => {
+            if (control) control.classList.add('music-playing');
+        }).catch(err => {
+            console.log("Playback failed even after interaction:", err);
+        });
     }
 }
 
