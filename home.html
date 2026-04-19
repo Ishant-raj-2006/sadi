@@ -10,55 +10,59 @@
 
     <header class="header-hero">
         <p class="script-font">Welcome to our Journey</p>
-        <h1>Celebrate Our Special Moments</h1>
-        <p class="script-font" style="font-size: 2.2rem; margin: 0.5rem 0;">April 21, 2024</p>
-        <p class="subtitle">Experience the magic of each ceremony through our curated gallery.</p>
+        <h1>Our Wedding Ceremonies</h1>
+        <p class="subtitle">Join us in celebrating the beautiful traditions and sacred moments of our union.</p>
     </header>
 
     <main class="menu-grid">
         <a href="matkor.html" class="menu-card">
             <img src="img/matkor/1.jpg" alt="Matkor" onerror="this.src='img/wedding/1.jpg'">
             <div class="card-overlay">
-                <h3>Drum Beats: Matkor</h3>
-                <p>The rhythm of tradition and soulful prayers.</p>
+                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">The Sacred Beats</p>
+                <h3>Matkor</h3>
+                <p>Starting the journey with rhythm and blessings.</p>
             </div>
         </a>
 
         <a href="haldi.html" class="menu-card">
             <img src="img/haldi/1.jpg" alt="Haldi" onerror="this.src='img/wedding/10.jpg'">
             <div class="card-overlay">
-                <h3>Shades of Haldi</h3>
-                <p>A glowing start filled with laughter and blessings.</p>
+                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">Golden Glow</p>
+                <h3>Haldi</h3>
+                <p>Moments filled with laughter and turmeric shine.</p>
             </div>
         </a>
 
         <a href="mehendi.html" class="menu-card">
             <img src="img/mehendi/1.jpg" alt="Mehendi" onerror="this.src='img/wedding/20.jpg'">
             <div class="card-overlay">
-                <h3>Henna Tales: Mehendi</h3>
-                <p>Art and love intertwined in every detail.</p>
+                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">Intricate Art</p>
+                <h3>Mehendi</h3>
+                <p>Love etched in henna upon the hands of the bride.</p>
             </div>
         </a>
 
         <a href="tilak.html" class="menu-card">
             <img src="img/tilak/1.jpg" alt="Tilak" onerror="this.src='img/wedding/30.jpg'">
             <div class="card-overlay">
-                <h3>The Sacred Tilak</h3>
-                <p>A promise of lifelong loyalty and respect.</p>
+                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">The Royal Mark</p>
+                <h3>Tilak</h3>
+                <p>A tradition of honor and commitment.</p>
             </div>
         </a>
 
         <a href="wedding.html" class="menu-card">
             <img src="img/wedding/1.jpg" alt="Wedding">
             <div class="card-overlay">
-                <h3>Soulmates: The Wedding</h3>
-                <p>Two hearts becoming one under the divine gaze.</p>
+                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">Eternal Bond</p>
+                <h3>The Wedding</h3>
+                <p>Two souls becoming one for eternity.</p>
             </div>
         </a>
     </main>
 
-    <footer>
-        Designed and Developed By Ishant Raj
+    <footer style="text-align: center; padding: 4rem 1rem; opacity: 0.5; font-size: 0.8rem; letter-spacing: 2px;">
+        MADE WITH LOVE BY ISHANT RAJ
     </footer>
 
     <!-- Floating Music Control -->
@@ -71,7 +75,7 @@
     <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            setupMusic('./music/All_page.mp3');
+            setupMusic('./music/Aankhon.mp3');
             const control = document.getElementById('music-control');
             if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
                 control.classList.add('music-playing');

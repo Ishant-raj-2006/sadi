@@ -6,65 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pooja & Uttam Wedding | Experience</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .bg-zoom {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: background-image 0.8s ease-in-out;
-            z-index: -1;
-        }
-
-        /* Extra overlay to make text readable on any photo */
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 0;
-        }
-
-        .welcome-content {
-            position: relative;
-            z-index: 1;
-        }
-    </style>
 </head>
 
 <body>
     <div class="welcome-container">
         <div class="bg-zoom" id="slideshow-bg"></div>
-        <div class="overlay"></div>
-
         <div class="welcome-content">
-            <p class="script-font" style="font-size: 3.5rem; color: #fff; margin-bottom: 0;">Wedding Bells</p>
-            <p style="text-transform: uppercase; letter-spacing: 5px; opacity: 0.8; margin-top: -10px;">The Union Of</p>
+            <p class="script-font">Wedding Bells</p>
+            <p>The Union Of</p>
             <h1>Pooja & Uttam</h1>
-            <p class="script-font" style="font-size: 2rem; color: var(--secondary-color); margin-top: 1rem;">April 21,
-                2024</p>
-            <p style="max-width: 450px; margin: 1rem auto; font-weight: 300;">We invite you to witness the beautiful
-                moments of our wedding through this digital journey.</p>
-            <button class="enter-btn" onclick="enterExperience()">Begin Journey</button>
-            <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6; letter-spacing: 2px;">Designed and Developed By
-                Ishant Raj</p>
+            <p class="script-font" style="font-size: 2.5rem; margin-top: 0.5rem; color: var(--secondary);">April 21, 2024</p>
+            <div style="margin: 2.5rem 0;">
+                <button class="enter-btn" onclick="enterExperience()">Begin Journey</button>
+            </div>
+            <p style="font-size: 0.75rem; opacity: 0.6; letter-spacing: 3px; margin-top: 3rem;">POOJA &bull; UTTAM</p>
         </div>
     </div>
 
-    <!-- Hidden audio for context -->
-    <audio id="init-audio" src="./music/All_page.mp3" preload="auto"></audio>
+    <audio id="init-audio" src="./music/Aankhon.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
     <script>
         const weddingPhotos = [];
         const totalPhotos = 119;
 
-        // Prepare list of wedding photos (skipping 57 as previously noted)
         for (let i = 1; i <= totalPhotos; i++) {
             if (i === 57) continue;
             weddingPhotos.push(`img/wedding/${i}.jpg`);
@@ -74,38 +39,29 @@
         const bgElement = document.getElementById('slideshow-bg');
 
         function changeBackground() {
-            bgElement.style.backgroundImage = `url('${weddingPhotos[currentIdx]}')`;
-            currentIdx = (currentIdx + 1) % weddingPhotos.length;
+            const nextImg = new Image();
+            nextImg.src = weddingPhotos[currentIdx];
+            nextImg.onload = () => {
+                bgElement.style.backgroundImage = `url('${weddingPhotos[currentIdx]}')`;
+                currentIdx = (currentIdx + 1) % weddingPhotos.length;
+            };
         }
 
-        // Initial call
         changeBackground();
-
-        // Change background every 1 second
-        setInterval(changeBackground, 1000);
+        setInterval(changeBackground, 5000); // 5 seconds for elegance
 
         function enterExperience() {
             const audio = document.getElementById('init-audio');
-
-            // Try to play audio first
             const playPromise = audio.play();
-
+            
             sessionStorage.setItem('wedding_music_playing', 'true');
-            document.body.style.opacity = '0';
+            document.querySelector('.welcome-content').style.opacity = '0';
+            document.querySelector('.welcome-content').style.transform = 'scale(1.1)';
+            document.querySelector('.welcome-content').style.transition = 'all 1s ease';
 
-            // Wait slightly for audio to start buffering then redirect
-            // This unlock is crucial for the next page
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    setTimeout(() => {
-                        window.location.href = 'home.html';
-                    }, 500);
-                }).catch(() => {
-                    window.location.href = 'home.html';
-                });
-            } else {
+            setTimeout(() => {
                 window.location.href = 'home.html';
-            }
+            }, 800);
         }
     </script>
 </body>

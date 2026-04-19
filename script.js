@@ -17,36 +17,47 @@ async function initGallery(folder) {
     if (!container) return;
 
     const count = photoCounts[folder] || 10;
-    
     container.innerHTML = "";
 
+    // Masonry Layout via columns (defined in CSS)
     for (let i = 1; i <= count; i++) {
         if (folder === 'wedding' && i === 57) continue;
 
+        const item = document.createElement("div");
+        item.className = "gallery-item";
+        
         const img = document.createElement("img");
         img.src = `img/${folder}/${i}.jpg`;
         img.loading = "lazy";
         img.alt = `${folder} photo ${i}`;
         
         img.onerror = function() {
-            this.style.display = 'none';
+            item.style.display = 'none';
         };
 
         img.onclick = () => openLightbox(folder, i);
 
-        // Entrance animation
-        img.style.opacity = "0";
-        img.style.transform = "translateY(20px)";
-        
-        container.appendChild(img);
+        item.appendChild(img);
+        container.appendChild(item);
 
-        setTimeout(() => {
-            img.style.transition = "all 0.6s cubic-bezier(0.23, 1, 0.32, 1)";
-            img.style.opacity = "1";
-            img.style.transform = "translateY(0)";
-        }, 50 * (i % 20));
+        // Intersection Observer for Reveal Effect
+        observer.observe(item);
     }
 }
+
+const observerOptions = {
+    threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
 
 // --- MUSIC LOGIC ---
 function setupMusic(src) {
@@ -54,41 +65,21 @@ function setupMusic(src) {
     const control = document.getElementById("music-control");
     if (!player) return;
     
-    console.log("Setting up music:", src);
+    player.src = src;
+    player.loop = true;
     
-    // Use relative path explicitly
-    const audioPath = src.startsWith('./') ? src : './' + src;
-    player.src = audioPath;
-    player.volume = 1.0;
-    player.load(); 
-    
-    const isMusicEnabled = sessionStorage.getItem('wedding_music_playing') !== 'false';
-
-    if (isMusicEnabled) {
-        // Multi-event listener to catch any form of user interaction
-        const startEvents = ['click', 'touchstart', 'mousedown', 'keydown'];
-        const startMusicOnce = () => {
-            if (player.paused && sessionStorage.getItem('wedding_music_playing') !== 'false') {
-                console.log("Attempting to play after interaction...");
-                player.play().then(() => {
-                    console.log("Playback started successfully!");
-                    if (control) control.classList.add('music-playing');
-                }).catch(err => console.log("Playback failed after interaction:", err));
-            }
-            // Remove listeners after first interaction
-            startEvents.forEach(event => document.removeEventListener(event, startMusicOnce));
+    if (sessionStorage.getItem('wedding_music_playing') === 'true') {
+        const playMusic = () => {
+            player.play().then(() => {
+                control?.classList.add('music-playing');
+                document.removeEventListener('click', playMusic);
+            }).catch(() => {});
         };
-
-        startEvents.forEach(event => {
-            document.addEventListener(event, startMusicOnce);
-        });
-
-        // Try to play immediately (might work if already unlocked by previous page)
+        
         player.play().then(() => {
-            console.log("Autoplay successful!");
-            if (control) control.classList.add('music-playing');
+            control?.classList.add('music-playing');
         }).catch(() => {
-            console.log("Autoplay blocked. Waiting for interaction...");
+            document.addEventListener('click', playMusic);
         });
     }
 }
@@ -99,20 +90,18 @@ function toggleMusic() {
     if (!player) return;
 
     if (player.paused) {
-        player.play().then(() => {
-            sessionStorage.setItem('wedding_music_playing', 'true');
-            if (control) control.classList.add('music-playing');
-        });
+        player.play();
+        sessionStorage.setItem('wedding_music_playing', 'true');
+        control?.classList.add('music-playing');
     } else {
         player.pause();
         sessionStorage.setItem('wedding_music_playing', 'false');
-        if (control) control.classList.remove('music-playing');
+        control?.classList.remove('music-playing');
     }
 }
 
 // --- LIGHTBOX LOGIC ---
 function openLightbox(folder, index) {
-    currentIndex = index;
     currentFolder = folder;
     currentImages = [];
     const count = photoCounts[folder] || 10;
@@ -123,105 +112,71 @@ function openLightbox(folder, index) {
     }
 
     const actualPath = `img/${folder}/${index}.jpg`;
-    currentIndex = currentImages.indexOf(actualPath) + 1;
+    currentIndex = currentImages.indexOf(actualPath);
 
     const lightbox = document.getElementById("lightbox");
-    if (!lightbox) {
-        console.error("Lightbox element not found!");
-        return;
-    }
-
-    lightbox.style.display = "flex";
-    lightbox.style.opacity = "0";
-    
     const img = document.getElementById("lightbox-img");
-    if (img) img.src = currentImages[currentIndex - 1];
-
-    setTimeout(() => {
-        lightbox.classList.add("active");
-        lightbox.style.opacity = "1";
-    }, 10);
+    
+    img.src = currentImages[currentIndex];
+    lightbox.style.display = "flex";
+    setTimeout(() => lightbox.style.opacity = "1", 10);
 }
 
 function closeLightbox() {
     const lightbox = document.getElementById("lightbox");
-    if (!lightbox) return;
-
-    lightbox.classList.remove("active");
     lightbox.style.opacity = "0";
-    setTimeout(() => {
-        lightbox.style.display = "none";
-    }, 300);
+    setTimeout(() => lightbox.style.display = "none", 500);
 }
 
 function nextImage() {
-    if (currentImages.length === 0) return;
-    currentIndex++;
-    if (currentIndex > currentImages.length) currentIndex = 1;
+    currentIndex = (currentIndex + 1) % currentImages.length;
     updateLightboxImage();
 }
 
 function prevImage() {
-    if (currentImages.length === 0) return;
-    currentIndex--;
-    if (currentIndex < 1) currentIndex = currentImages.length;
+    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
     updateLightboxImage();
 }
 
 function updateLightboxImage() {
     const img = document.getElementById("lightbox-img");
-    if (!img) return;
-
-    img.style.transform = "scale(0.95)";
-    img.style.opacity = "0.5";
-    
+    img.style.opacity = "0";
     setTimeout(() => {
-        img.src = currentImages[currentIndex - 1];
-        img.style.transform = "scale(1)";
+        img.src = currentImages[currentIndex];
         img.style.opacity = "1";
-    }, 200);
+    }, 250);
 }
 
-// --- GLOBAL EVENT LISTENERS ---
-document.addEventListener("keydown", (e) => {
-    const lightbox = document.getElementById("lightbox");
-    if (lightbox && lightbox.style.display === "flex") {
-        if (e.key === "ArrowRight") nextImage();
-        if (e.key === "ArrowLeft") prevImage();
-        if (e.key === "Escape") closeLightbox();
-    }
-});
-
-// Auto slideshow in lightbox
-setInterval(() => {
-    const lightbox = document.getElementById("lightbox");
-    if (lightbox && lightbox.style.display === "flex") nextImage();
-}, 6000);
-
-// --- HEART RAIN LOGIC ---
+// --- HEART RAIN ---
 function createHeart() {
+    if (document.hidden) return;
     const heart = document.createElement('div');
     heart.className = 'heart-particle';
-    heart.innerHTML = '💕';
+    heart.innerHTML = '❤️';
     heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-    heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-    heart.style.opacity = Math.random();
+    heart.style.fontSize = Math.random() * 15 + 10 + 'px';
+    heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+    heart.style.opacity = Math.random() * 0.5 + 0.2;
     
     document.body.appendChild(heart);
-    
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
+    setTimeout(() => heart.remove(), 6000);
 }
 
+// Start Heart Rain with throttled interval
+let heartInterval;
 function startHeartRain() {
-    setInterval(createHeart, 400); 
+    if (heartInterval) clearInterval(heartInterval);
+    heartInterval = setInterval(createHeart, 800);
 }
 
-// Start Heart Rain
-if (document.readyState === 'complete') {
+document.addEventListener('DOMContentLoaded', () => {
     startHeartRain();
-} else {
-    window.addEventListener('load', startHeartRain);
-}
+    
+    document.addEventListener('keydown', (e) => {
+        if (document.getElementById('lightbox').style.display === 'flex') {
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'Escape') closeLightbox();
+        }
+    });
+});
