@@ -36,7 +36,7 @@
     <script>
         window.onload = () => {
             initGallery('tilak');
-            setupMusic('music/tilak.mp3');
+            setupMusic('./music/tilak.mp3');
             const control = document.getElementById('music-control');
             if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
                 control.classList.add('music-playing');

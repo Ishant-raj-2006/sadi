@@ -71,7 +71,7 @@
     <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            setupMusic('music/All_page.mp3');
+            setupMusic('./music/All_page.mp3');
             const control = document.getElementById('music-control');
             if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
                 control.classList.add('music-playing');

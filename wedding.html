@@ -36,7 +36,7 @@
     <script>
         window.onload = () => {
             initGallery('wedding');
-            setupMusic('music/wedding.mp3');
+            setupMusic('./music/wedding.mp3');
             const control = document.getElementById('music-control');
             if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
                 control.classList.add('music-playing');

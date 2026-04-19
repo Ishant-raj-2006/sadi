@@ -40,7 +40,7 @@
     <script>
         window.onload = () => {
             initGallery('haldi');
-            setupMusic('music/haldi.mp3');
+            setupMusic('./music/haldi.mp3');
             const control = document.getElementById('music-control');
             if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
                 control.classList.add('music-playing');

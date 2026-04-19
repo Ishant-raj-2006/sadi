@@ -51,35 +51,44 @@ async function initGallery(folder) {
 // --- MUSIC LOGIC ---
 function setupMusic(src) {
     const player = document.getElementById("player");
+    const control = document.getElementById("music-control");
     if (!player) return;
     
-    player.src = src;
-    player.load(); // Explicitly load the new source
+    console.log("Setting up music:", src);
     
-    const isMusicPlaying = sessionStorage.getItem('wedding_music_playing') !== 'false';
+    // Use relative path explicitly
+    const audioPath = src.startsWith('./') ? src : './' + src;
+    player.src = audioPath;
+    player.volume = 1.0;
+    player.load(); 
+    
+    const isMusicEnabled = sessionStorage.getItem('wedding_music_playing') !== 'false';
 
-    if (isMusicPlaying) {
+    if (isMusicEnabled) {
         // Multi-event listener to catch any form of user interaction
-        ['click', 'touchstart', 'mousedown', 'keydown'].forEach(event => {
-            document.addEventListener(event, startMusicOnce, { once: true });
+        const startEvents = ['click', 'touchstart', 'mousedown', 'keydown'];
+        const startMusicOnce = () => {
+            if (player.paused && sessionStorage.getItem('wedding_music_playing') !== 'false') {
+                console.log("Attempting to play after interaction...");
+                player.play().then(() => {
+                    console.log("Playback started successfully!");
+                    if (control) control.classList.add('music-playing');
+                }).catch(err => console.log("Playback failed after interaction:", err));
+            }
+            // Remove listeners after first interaction
+            startEvents.forEach(event => document.removeEventListener(event, startMusicOnce));
+        };
+
+        startEvents.forEach(event => {
+            document.addEventListener(event, startMusicOnce);
         });
 
         // Try to play immediately (might work if already unlocked by previous page)
-        player.play().catch(() => {
-            console.log("Autoplay blocked. Waiting for interaction...");
-        });
-    }
-}
-
-function startMusicOnce() {
-    const player = document.getElementById("player");
-    const control = document.getElementById("music-control");
-    
-    if (player && player.paused && sessionStorage.getItem('wedding_music_playing') !== 'false') {
         player.play().then(() => {
+            console.log("Autoplay successful!");
             if (control) control.classList.add('music-playing');
-        }).catch(err => {
-            console.log("Playback failed even after interaction:", err);
+        }).catch(() => {
+            console.log("Autoplay blocked. Waiting for interaction...");
         });
     }
 }
@@ -90,9 +99,10 @@ function toggleMusic() {
     if (!player) return;
 
     if (player.paused) {
-        player.play();
-        sessionStorage.setItem('wedding_music_playing', 'true');
-        if (control) control.classList.add('music-playing');
+        player.play().then(() => {
+            sessionStorage.setItem('wedding_music_playing', 'true');
+            if (control) control.classList.add('music-playing');
+        });
     } else {
         player.pause();
         sessionStorage.setItem('wedding_music_playing', 'false');

@@ -44,7 +44,7 @@
     </div>
 
     <!-- Hidden audio for context -->
-    <audio id="init-audio" src="music/All_page.mp3" preload="auto"></audio>
+    <audio id="init-audio" src="./music/All_page.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
     <script>
@@ -73,16 +73,26 @@
 
         function enterExperience() {
             const audio = document.getElementById('init-audio');
-            audio.play().then(() => {
-                sessionStorage.setItem('wedding_music_playing', 'true');
-                document.body.style.opacity = '0';
-                setTimeout(() => {
+            
+            // Try to play audio first
+            const playPromise = audio.play();
+            
+            sessionStorage.setItem('wedding_music_playing', 'true');
+            document.body.style.opacity = '0';
+            
+            // Wait slightly for audio to start buffering then redirect
+            // This unlock is crucial for the next page
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setTimeout(() => {
+                        window.location.href = 'home.html';
+                    }, 500);
+                }).catch(() => {
                     window.location.href = 'home.html';
-                }, 800);
-            }).catch(() => {
-                sessionStorage.setItem('wedding_music_playing', 'true');
+                });
+            } else {
                 window.location.href = 'home.html';
-            });
+            }
         }
     </script>
 </body>
