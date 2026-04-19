@@ -15,7 +15,8 @@
             <p class="script-font">Wedding Bells</p>
             <p>The Union Of</p>
             <h1>Pooja & Uttam</h1>
-            <p class="script-font" style="font-size: 2.5rem; margin-top: 0.5rem; color: var(--secondary);">April 21, 2024</p>
+            <p class="script-font" style="font-size: 2.5rem; margin-top: 0.5rem; color: var(--secondary);">April 21,
+                2024</p>
             <div style="margin: 2.5rem 0;">
                 <button class="enter-btn" onclick="enterExperience()">Begin Journey</button>
             </div>
@@ -53,7 +54,7 @@
         function enterExperience() {
             const audio = document.getElementById('init-audio');
             const playPromise = audio.play();
-            
+
             sessionStorage.setItem('wedding_music_playing', 'true');
             document.querySelector('.welcome-content').style.opacity = '0';
             document.querySelector('.welcome-content').style.transform = 'scale(1.1)';

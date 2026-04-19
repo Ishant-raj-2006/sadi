@@ -11,15 +11,13 @@ const photoCounts = {
 };
 
 // --- GALLERY INITIALIZATION ---
-async function initGallery(folder) {
-    currentFolder = folder;
-    const container = document.getElementById('gallery-container');
+async function initGallery(folder, containerId) {
+    const container = document.getElementById(containerId);
     if (!container) return;
 
     const count = photoCounts[folder] || 10;
     container.innerHTML = "";
 
-    // Masonry Layout via columns (defined in CSS)
     for (let i = 1; i <= count; i++) {
         if (folder === 'wedding' && i === 57) continue;
 
@@ -40,7 +38,6 @@ async function initGallery(folder) {
         item.appendChild(img);
         container.appendChild(item);
 
-        // Intersection Observer for Reveal Effect
         observer.observe(item);
     }
 }
@@ -68,7 +65,9 @@ function setupMusic(src) {
     player.src = src;
     player.loop = true;
     
-    if (sessionStorage.getItem('wedding_music_playing') === 'true') {
+    const isPlaying = sessionStorage.getItem('wedding_music_playing') === 'true';
+
+    if (isPlaying) {
         const playMusic = () => {
             player.play().then(() => {
                 control?.classList.add('music-playing');
@@ -101,7 +100,8 @@ function toggleMusic() {
 }
 
 // --- LIGHTBOX LOGIC ---
-function openLightbox(folder, index) {
+window.openLightbox = function(folder, index) {
+    console.log("Opening Lightbox:", folder, index);
     currentFolder = folder;
     currentImages = [];
     const count = photoCounts[folder] || 10;
@@ -116,64 +116,90 @@ function openLightbox(folder, index) {
 
     const lightbox = document.getElementById("lightbox");
     const img = document.getElementById("lightbox-img");
+    const downloadLink = document.getElementById("download-link");
     
-    img.src = currentImages[currentIndex];
-    lightbox.style.display = "flex";
-    setTimeout(() => lightbox.style.opacity = "1", 10);
-}
+    if (!lightbox || !img) return;
 
-function closeLightbox() {
+    img.src = currentImages[currentIndex];
+    
+    // Setup initial download link
+    downloadLink.href = currentImages[currentIndex];
+    downloadLink.setAttribute('download', `${folder}_${index}.jpg`);
+
+    lightbox.style.display = "flex";
+    setTimeout(() => {
+        lightbox.style.opacity = "1";
+    }, 10);
+};
+
+window.closeLightbox = function() {
     const lightbox = document.getElementById("lightbox");
+    if (!lightbox) return;
     lightbox.style.opacity = "0";
     setTimeout(() => lightbox.style.display = "none", 500);
-}
+};
 
-function nextImage() {
+window.nextImage = function() {
     currentIndex = (currentIndex + 1) % currentImages.length;
     updateLightboxImage();
-}
+};
 
-function prevImage() {
+window.prevImage = function() {
     currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
     updateLightboxImage();
-}
+};
 
 function updateLightboxImage() {
     const img = document.getElementById("lightbox-img");
+    const downloadLink = document.getElementById("download-link");
+    
+    if (!img) return;
+
     img.style.opacity = "0";
     setTimeout(() => {
-        img.src = currentImages[currentIndex];
+        const newSrc = currentImages[currentIndex];
+        img.src = newSrc;
+        
+        // Update download link
+        if (downloadLink) {
+            downloadLink.href = newSrc;
+            const fileName = newSrc.split('/').pop();
+            downloadLink.setAttribute('download', fileName);
+        }
+
         img.style.opacity = "1";
     }, 250);
 }
 
-// --- HEART RAIN ---
-function createHeart() {
+// --- PARTICLE RAIN ---
+const particles = ['❤️', '💖', '💧', '✨', '🌸', '🌹'];
+
+function createParticle() {
     if (document.hidden) return;
-    const heart = document.createElement('div');
-    heart.className = 'heart-particle';
-    heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = Math.random() * 15 + 10 + 'px';
-    heart.style.animationDuration = Math.random() * 3 + 4 + 's';
-    heart.style.opacity = Math.random() * 0.5 + 0.2;
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = Math.random() * 15 + 15 + 'px';
+    p.style.animationDuration = Math.random() * 3 + 4 + 's';
+    p.style.opacity = Math.random() * 0.6 + 0.3;
     
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 6000);
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 7000);
 }
 
-// Start Heart Rain with throttled interval
-let heartInterval;
-function startHeartRain() {
-    if (heartInterval) clearInterval(heartInterval);
-    heartInterval = setInterval(createHeart, 800);
+let particleInterval;
+function startParticleRain() {
+    if (particleInterval) clearInterval(particleInterval);
+    particleInterval = setInterval(createParticle, 600);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    startHeartRain();
+    startParticleRain();
     
     document.addEventListener('keydown', (e) => {
-        if (document.getElementById('lightbox').style.display === 'flex') {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && lightbox.style.display === 'flex') {
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
             if (e.key === 'Escape') closeLightbox();

@@ -8,65 +8,101 @@
 </head>
 <body>
 
+    <nav style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; background: var(--glass-heavy); backdrop-filter: blur(10px); padding: 0.8rem 2rem; border-radius: 50px; border: 1px solid var(--glass-border); display: flex; gap: 20px; box-shadow: var(--shadow);">
+        <a href="#matkor" style="text-decoration: none; color: var(--text-dark); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Matkor</a>
+        <a href="#haldi" style="text-decoration: none; color: var(--text-dark); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Haldi</a>
+        <a href="#mehendi" style="text-decoration: none; color: var(--text-dark); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Mehendi</a>
+        <a href="#tilak" style="text-decoration: none; color: var(--text-dark); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Tilak</a>
+        <a href="#wedding" style="text-decoration: none; color: var(--text-dark); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Wedding</a>
+    </nav>
+
     <header class="header-hero">
         <p class="script-font">Welcome to our Journey</p>
-        <h1>Our Wedding Ceremonies</h1>
-        <p class="subtitle">Join us in celebrating the beautiful traditions and sacred moments of our union.</p>
+        <h1>Pooja & Uttam Wedding</h1>
+        <p class="subtitle">Experience every sacred moment in one single journey.</p>
     </header>
 
-    <main class="menu-grid">
-        <a href="matkor.html" class="menu-card">
-            <img src="img/matkor/1.jpg" alt="Matkor" onerror="this.src='img/wedding/1.jpg'">
-            <div class="card-overlay">
-                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">The Sacred Beats</p>
-                <h3>Matkor</h3>
-                <p>Starting the journey with rhythm and blessings.</p>
+    <!-- MATKOR -->
+    <section id="matkor" class="ceremony-section">
+        <div class="section-header">
+            <p class="script-font">Sacred Beats</p>
+            <h2>Matkor Ceremony</h2>
+            <p class="hindi-shayeri" style="font-size: 1.2rem; margin-top: 1rem; color: var(--accent);">मटकोर की रस्म, खुशियों की बौछार, बजने लगे ढोल, महकने लगा प्यार।</p>
+        </div>
+        <div class="gallery-grid" id="matkor-container"></div>
+    </section>
+
+    <!-- HALDI -->
+    <section id="haldi" class="ceremony-section">
+        <div class="section-header">
+            <p class="script-font">Golden Glow</p>
+            <h2>Haldi Ceremony</h2>
+            <p class="hindi-shayeri" style="font-size: 1.2rem; margin-top: 1rem; color: var(--accent);">हल्दी का रंग, प्यार की चमक, नए जीवन की एक प्यारी दमक।</p>
+        </div>
+        <div class="gallery-grid" id="haldi-container"></div>
+    </section>
+
+    <!-- MEHENDI -->
+    <section id="mehendi" class="ceremony-section">
+        <div class="section-header">
+            <p class="script-font">Intricate Art</p>
+            <h2>Mehendi Ceremony</h2>
+            <p class="hindi-shayeri" style="font-size: 1.2rem; margin-top: 1rem; color: var(--accent);">मेहंदी के रंग में घुली है मोहब्बत, पिया के नाम की सजी है ये रंगत।</p>
+        </div>
+        <div class="gallery-grid" id="mehendi-container"></div>
+    </section>
+
+    <!-- TILAK -->
+    <section id="tilak" class="ceremony-section">
+        <div class="section-header">
+            <p class="script-font">Royal Mark</p>
+            <h2>Tilak Ceremony</h2>
+            <p class="hindi-shayeri" style="font-size: 1.2rem; margin-top: 1rem; color: var(--accent);">तिलक की रस्म, रिश्तों का मान, दो परिवारों का बढ़ा ये सम्मान।</p>
+        </div>
+        <div class="gallery-grid" id="tilak-container"></div>
+    </section>
+
+    <!-- WEDDING -->
+    <section id="wedding" class="ceremony-section">
+        <div class="section-header">
+            <p class="script-font">Eternal Bond</p>
+            <h2>The Wedding</h2>
+            <p class="hindi-shayeri" style="font-size: 1.2rem; margin-top: 1rem; color: var(--accent);">दो दिल मिले, एक जान हुए, आज से हम तुम्हारे मेहमान हुए।</p>
+        </div>
+        <div class="gallery-grid" id="wedding-container"></div>
+    </section>
+
+    <!-- THANK YOU SECTION -->
+    <section class="thank-you-section" style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: white; position: relative; z-index: 10;">
+        <p class="script-font" style="font-size: 5rem;">Thank You</p>
+        <h2 style="margin: 2rem 0;">For Being Part of Our Story</h2>
+        <p style="max-width: 600px; line-height: 2; opacity: 0.7;">Your presence and blessings mean the world to us. Thank you for witnessing the beginning of our forever.</p>
+        <p style="margin-top: 4rem; font-size: 0.8rem; letter-spacing: 3px; color: var(--secondary);">POOJA &bull; UTTAM</p>
+        
+        <footer style="margin-top: 5rem; opacity: 0.5; font-size: 0.7rem; letter-spacing: 2px;">
+            DESIGNED WITH LOVE BY ISHANT RAJ
+        </footer>
+    </section>
+
+    <!-- ENHANCED LIGHTBOX -->
+    <div id="lightbox" style="position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; opacity: 0; transition: opacity 0.5s ease; backdrop-filter: blur(10px);">
+        <div id="lightbox-content" style="position: relative; max-width: 90%; max-height: 90vh;">
+            <span class="close-btn" onclick="closeLightbox()" style="position: absolute; top: -50px; right: 0; color: white; font-size: 3rem; cursor: pointer;">&times;</span>
+            <img id="lightbox-img" style="max-width: 100%; max-height: 75vh; object-fit: contain; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            
+            <div style="position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0 40px; pointer-events: none;">
+                <button onclick="prevImage()" style="pointer-events: auto; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 2.5rem; padding: 1rem 1.5rem; border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px);">❮</button>
+                <button onclick="nextImage()" style="pointer-events: auto; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 2.5rem; padding: 1rem 1.5rem; border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px);">❯</button>
             </div>
-        </a>
 
-        <a href="haldi.html" class="menu-card">
-            <img src="img/haldi/1.jpg" alt="Haldi" onerror="this.src='img/wedding/10.jpg'">
-            <div class="card-overlay">
-                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">Golden Glow</p>
-                <h3>Haldi</h3>
-                <p>Moments filled with laughter and turmeric shine.</p>
+            <div class="lightbox-actions" style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
+                <button class="action-btn" onclick="closeLightbox()" style="padding: 1rem 2.5rem; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; background: white; color: black;">⬅ Back</button>
+                <a id="download-link" class="action-btn download-btn" download style="padding: 1rem 2.5rem; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; background: var(--secondary); color: white; text-decoration: none;">📥 Download</a>
             </div>
-        </a>
+        </div>
+    </div>
 
-        <a href="mehendi.html" class="menu-card">
-            <img src="img/mehendi/1.jpg" alt="Mehendi" onerror="this.src='img/wedding/20.jpg'">
-            <div class="card-overlay">
-                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">Intricate Art</p>
-                <h3>Mehendi</h3>
-                <p>Love etched in henna upon the hands of the bride.</p>
-            </div>
-        </a>
-
-        <a href="tilak.html" class="menu-card">
-            <img src="img/tilak/1.jpg" alt="Tilak" onerror="this.src='img/wedding/30.jpg'">
-            <div class="card-overlay">
-                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">The Royal Mark</p>
-                <h3>Tilak</h3>
-                <p>A tradition of honor and commitment.</p>
-            </div>
-        </a>
-
-        <a href="wedding.html" class="menu-card">
-            <img src="img/wedding/1.jpg" alt="Wedding">
-            <div class="card-overlay">
-                <p class="script-font" style="font-size: 1.5rem; color: var(--secondary);">Eternal Bond</p>
-                <h3>The Wedding</h3>
-                <p>Two souls becoming one for eternity.</p>
-            </div>
-        </a>
-    </main>
-
-    <footer style="text-align: center; padding: 4rem 1rem; opacity: 0.5; font-size: 0.8rem; letter-spacing: 2px;">
-        MADE WITH LOVE BY ISHANT RAJ
-    </footer>
-
-    <!-- Floating Music Control -->
-    <div id="music-control" style="position: fixed; bottom: 30px; right: 30px; z-index: 1000; cursor: pointer; border-radius: 50%;" onclick="toggleMusic()">
+    <div id="music-control" onclick="toggleMusic()">
         <span id="music-icon">🎵</span>
     </div>
 
@@ -75,11 +111,44 @@
     <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            initGallery('matkor', 'matkor-container');
+            initGallery('haldi', 'haldi-container');
+            initGallery('mehendi', 'mehendi-container');
+            initGallery('tilak', 'tilak-container');
+            initGallery('wedding', 'wedding-container');
+            
             setupMusic('./music/Aankhon.mp3');
-            const control = document.getElementById('music-control');
-            if (sessionStorage.getItem('wedding_music_playing') !== 'false') {
-                control.classList.add('music-playing');
-            }
+
+            // ROBUST AUTO SCROLL
+            let scrollActive = true;
+            let lastScrollPos = window.scrollY;
+            
+            const autoScroll = setInterval(() => {
+                if (!scrollActive) return;
+                
+                const currentScroll = window.scrollY || document.documentElement.scrollTop;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+                // Stop if reached bottom (with 10px buffer)
+                if (currentScroll >= maxScroll - 10 && maxScroll > 0) {
+                    scrollActive = false; 
+                } else {
+                    window.scrollBy(0, 1); // 1px step
+                }
+            }, 30); // 30ms interval for smoother/faster feel
+
+            // User interaction handling
+            window.addEventListener('scroll', () => {
+                const currentPos = window.scrollY || document.documentElement.scrollTop;
+                
+                // If user scrolls to top, reactivate
+                if (currentPos < 50) {
+                    scrollActive = true; 
+                }
+                
+                // If user scrolls up significantly, maybe pause or just let it be.
+                // We'll keep it simple: only bottom stops, top restarts.
+            });
         });
     </script>
 </body>
