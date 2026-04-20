@@ -1,1 +1,1 @@
-*.mp3 filter=lfs diff=lfs merge=lfs -text
+# Removed Git LFS for MP3 files because GitHub Pages does not support it.

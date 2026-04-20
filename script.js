@@ -11,7 +11,7 @@ const photoCounts = {
 };
 
 // --- GALLERY INITIALIZATION ---
-async function initGallery(folder, containerId) {
+async function initGallery(folder, containerId = "gallery-container") {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -62,7 +62,11 @@ function setupMusic(src) {
     const control = document.getElementById("music-control");
     if (!player) return;
     
-    player.src = src;
+    // Convert to absolute to compare properly
+    const absoluteSrc = new URL(src, document.baseURI).href;
+    if (player.src !== absoluteSrc) {
+        player.src = src;
+    }
     player.loop = true;
     
     const isPlaying = sessionStorage.getItem('wedding_music_playing') === 'true';
@@ -89,9 +93,10 @@ function toggleMusic() {
     if (!player) return;
 
     if (player.paused) {
-        player.play();
-        sessionStorage.setItem('wedding_music_playing', 'true');
-        control?.classList.add('music-playing');
+        player.play().then(() => {
+            sessionStorage.setItem('wedding_music_playing', 'true');
+            control?.classList.add('music-playing');
+        }).catch(err => console.log("Play failed:", err));
     } else {
         player.pause();
         sessionStorage.setItem('wedding_music_playing', 'false');
@@ -122,9 +127,11 @@ window.openLightbox = function(folder, index) {
 
     img.src = currentImages[currentIndex];
     
-    // Setup initial download link
-    downloadLink.href = currentImages[currentIndex];
-    downloadLink.setAttribute('download', `${folder}_${index}.jpg`);
+    // Setup initial download link (only if it exists)
+    if (downloadLink) {
+        downloadLink.href = currentImages[currentIndex];
+        downloadLink.setAttribute('download', `${folder}_${index}.jpg`);
+    }
 
     lightbox.style.display = "flex";
     setTimeout(() => {
